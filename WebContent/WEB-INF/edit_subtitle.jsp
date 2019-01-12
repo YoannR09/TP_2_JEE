@@ -37,12 +37,12 @@ body {
 	border-radius: 5px;
 }
 
-#fichier,#select{
+#fichier, #select {
 	margin: auto;
 }
-#fichier
-{
-display :none;
+
+#fichier {
+	display: none;
 }
 
 #bottom {
@@ -70,6 +70,11 @@ h2, #tableau {
 		<h2>Editeur de sous-titres</h2>
 	</header>
 	<form method="post">
+
+		<%--  Cadre pour ajouter un fichier srt à l'application. L'application
+		va lire le fichier et créer des champs vides pour y mettre la
+		traduction --%>
+
 		<div class="col-lg-12 col-md-12 col-sm-12" id="bloc">
 			<div class="col-lg-4  col-md-4 col-sm-4 ">
 				<div class="panel panel-primary" id="ajouter">
@@ -77,16 +82,19 @@ h2, #tableau {
 						<h3 class="panel-title">Ajouter</h3>
 					</div>
 					<h4>
+
 						<span class="label label-primary"><label for="nom">Nom
 								de la vidéo : </label></span> <input type="text" name="nom" id="nom" size="10%" />
 					</h4>
-					
+
 					<p>
-					<input type="file" name="fichier" id="fichier"
-						class="btn btn-primary" />
-					<a href="#" onclick='document.getElementById("fichier").click();' class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-folder-open"></span> Parcourir</a>
+						<input type="file" name="fichier" id="fichier"
+							class="btn btn-primary" /> <a href="#"
+							onclick='document.getElementById("fichier").click();'
+							class="btn btn-primary btn-primary"><span
+							class="glyphicon glyphicon-folder-open"></span> Parcourir</a>
 					</p>
-					
+
 
 
 					<button class="btn btn-primary" type="submit" id="submit"
@@ -95,20 +103,24 @@ h2, #tableau {
 					</button>
 				</div>
 			</div>
+
+
+			<%--  Cadre pour lire un fichier déjà enregistrer dans la base de
+			données et stocké dans les fichiers --%>
+
 			<div class=" col-lg-4  col-md-4 col-sm-4  ">
 				<div class="panel panel-primary" id="lire">
 					<div class="panel-heading">
 						<h3 class="panel-title">Lire</h3>
 					</div>
-					<label for="select" class="col-lg-2 control-label"></label>
-
-						<select class="form-control" name="select" id="select">
-							<option value="${ select }" selected>${ select }</option>
-							<c:forEach items="${ videos }" var="videoSelect"
-								varStatus="status">
-								<option value="${ videoSelect.nom }">${ videoSelect.nom }</option>
-							</c:forEach>
-						</select>
+					<label for="select" class="col-lg-2 control-label"></label> <select
+						class="form-control" name="select" id="select">
+						<option value="${ select }" selected>${ select }</option>
+						<c:forEach items="${ videos }" var="videoSelect"
+							varStatus="status">
+							<option value="${ videoSelect.nom }">${ videoSelect.nom }</option>
+						</c:forEach>
+					</select>
 
 					<button class="btn btn-primary" type="submit" id="submit"
 						name="submit" value="lire">
@@ -116,6 +128,13 @@ h2, #tableau {
 					</button>
 				</div>
 			</div>
+
+
+			<%--  Cadre pour sauvegarder la traduction // Les lignes vont êtres
+			sauvegardés dans la base de données et un fichier traduction et
+			original va être généré. --%>
+
+
 			<div class="col-lg-4  col-md-4 col-sm-4 ">
 				<div class="panel panel-primary" id="sauvegarder">
 					<div class="panel-heading">
@@ -131,10 +150,17 @@ h2, #tableau {
 			</div>
 		</div>
 
+
+		<%--  Bloc qui va contenir les sous-titres de la video. // Le numéro de
+		la ligne, le temps, le texte original et la traduction seront
+		affichés.  --%>
+
 		<div class="col-lg-12  col-md-12 col-sm-12 " id="bottom">
 			<div id="table">
 				<table class="table table-bordered " id="tableau">
 					<tr class="table-primary">
+
+						<%--  Boucle qui affiche les numéros des lignes. --%>
 
 						<c:forEach items="${ numero }" var="num" varStatus="status">
 
@@ -144,6 +170,8 @@ h2, #tableau {
 
 					</tr>
 					<tr class="table-primary">
+
+						<%--  Boucle qui affiche le temps des lignes. --%>
 
 						<c:forEach items="${ temps }" var="tem" varStatus="status">
 
@@ -155,20 +183,23 @@ h2, #tableau {
 					</tr>
 					<tr class="table-primary">
 
+						<%--  Boucle qui affiche les lignes du texte original. --%>
+
 						<c:forEach items="${ subtitles }" var="line" varStatus="status">
 
 							<td style="height: 10%; text-align: center;"><c:out
 									value="${ line }" /></td>
-
 						</c:forEach>
 
 					</tr>
+
 					<c:if test="${ submit eq 'lire' }">
 						<tr class="table-primary">
+
+							<%--  Boucle qui affiche les lignes pour la traduction. --%>
+
 							<c:forEach items="${ traduction }" var="lineTrade"
 								varStatus="status">
-
-
 								<td style="height: 10%; text-align: center;" id="tradeBar"><input
 									type="text" name="lineTraductionLire${ status.index }"
 									id="lineTradeLire${ status.index }" size="35"
@@ -180,6 +211,9 @@ h2, #tableau {
 					</c:if>
 					<c:if test="${ submit eq 'ajouter' }">
 						<tr class="table-primary">
+
+							<%--  Boucle qui affiche les lignes pour la traduction. --%>
+
 							<c:forEach items="${ subtitles }" var="lineTrade"
 								varStatus="status">
 

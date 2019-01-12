@@ -1,7 +1,6 @@
 package fr.yoannroche.utilities;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,12 +23,28 @@ public class Sauvegarde {
 	boolean ajoutDeux = false;
 
 
+	/**
+	 * Classe qui permet de sauvegarder un nouveau fichier srt ou alors de les mettres à jours.
+	 * Elle créée aussi les informations dans la base de données.
+	 * @param request
+	 * @param videoDao
+	 * @param stDao
+	 * @param nomVideo
+	 * @param file
+	 * @param lastBtn
+	 * @param context
+	 */
 	public Sauvegarde(HttpServletRequest request, DAOVideo videoDao, DAOSousTitres stDao, String nomVideo, String file, String lastBtn, ServletContext context) {
 		BufferedReader br;
 		int type = 1;
 		int ligne = 0 ;
 		try {
 		   
+			
+			/**
+			 * Création des fichiers ou alors remplacement si ils existent déjà.
+			 * Le fichier prendra le nom de la video.
+			 */
 			PrintWriter writerO = new PrintWriter(context.getRealPath("resources/original/"+nomVideo+".srt"));
 			PrintWriter writerT = new PrintWriter(context.getRealPath("resources/traduction/"+nomVideo+".srt"));
 
@@ -83,7 +98,7 @@ public class Sauvegarde {
 							trade = request.getParameter("lineTraductionLire"+i);
 						}
 						i++;
-						if(ligne==0) {
+						if(ligne==0) { // On ajoute la première ligne.
 							st.setLigne1(line);
 							writerO.println(line);
 							st.setTraduction1(trade);
@@ -91,7 +106,7 @@ public class Sauvegarde {
 							ligne++;
 							ajoutDeux = false;
 						}
-						else {
+						else {	// On ajoute la deuxième ligne.
 							st.setLigne2(line);
 							writerO.println(line);
 							st.setTraduction2(trade);

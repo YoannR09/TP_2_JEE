@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import fr.yoannroche.beans.SousTitres;
 import fr.yoannroche.dao.DAOSousTitres;
 
 public class Lire {
@@ -21,13 +20,19 @@ public class Lire {
 	int second = 0;
 
 
-
+	/**
+	 * Classe qui permet de lire les fichiers déjà enregistrer dans la base de données et qui sont déjà placés dans les fichiers
+	 * On récupère le nom de la video dans le select et on va chercher la video en fonction du nom.
+	 * @param request
+	 * @param file
+	 * @param stDao
+	 */
 	public Lire(HttpServletRequest request, String file, DAOSousTitres stDao) {
 		originalSubtitles = new ArrayList<String>();
 		translatedSubtitles = new ArrayList<String>();
 		numeroLigne = new ArrayList<String>();
 		tempsLigne = new ArrayList<String>();
-		
+
 		BufferedReader br;
 		try {
 			int type = 1 ;
@@ -56,8 +61,8 @@ public class Lire {
 							second++;
 						}
 						else {
-							tempsLigne.add("");
-							numeroLigne.add("");
+							tempsLigne.add(""); // Pas de deuxième ligne on met un texte vide pour se lié au temps précédent.
+							numeroLigne.add(""); // Pas de deuxième ligne on met un texte vide pour se lié au numéro de ligne précédent
 						}
 						originalSubtitles.add(line);	
 					}
@@ -96,9 +101,9 @@ public class Lire {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
+
+
 
 	public ArrayList<String> getSubtitles() {
 		return originalSubtitles;

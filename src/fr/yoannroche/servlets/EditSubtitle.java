@@ -48,6 +48,13 @@ public class EditSubtitle extends HttpServlet {
 		request.setAttribute("submit", btn);
 		ServletContext context = getServletContext();
 		
+		
+		/**
+		 * Si on clique sur le bouton ajouter.
+		 * La classe Ajout récupère le fichier srt que l'utilisateur à choisit.
+		 * Le texte original sera affiché et des champs vides pour faire la traduction.
+		 */
+		
 		if(btn.equals("ajouter")) {
 			lastBtn = btn;
 			urlVideo = request.getParameter("fichier");
@@ -58,11 +65,22 @@ public class EditSubtitle extends HttpServlet {
 			request.setAttribute("temps", ajout.getTemps());
 			request.setAttribute("numero", ajout.getNumero());
 		}
+		
+		/**
+		 * Si on clique sur le bouton sauvegarde.
+		 * La classe Sauvegarde va enregistrer toutes les lignes dans la bases de données.
+		 * La classe créée un fichier srt pour la traduction et pour enregistrer l'original ou la remplacer si celle-ci existe.
+		 */
+		
 		else if(btn.equals("sauvegarde")) {
-			System.out.println(nomVideo);
-			System.out.println(urlVideo);
 			new Sauvegarde(request,videoDao,stDao,nomVideo,urlVideo,lastBtn,context);
 		}
+		
+		/**
+		 * Si on clique sur le bouton lire.
+		 * La classe lire va récupèrer les fichiers srt dans les fichiers traduction et original.
+		 */
+		
 		else if(btn.equals("lire")) {
 			lastBtn = btn;
 			String nomFichier = request.getParameter("select");
@@ -74,6 +92,9 @@ public class EditSubtitle extends HttpServlet {
 			request.setAttribute("numero", lire.getNumero());
 		}
 		
+		/**
+		 * On définis la liste de videos disponible dans la base de données.
+		 */
 		request.setAttribute("select", request.getParameter("select"));
 		request.setAttribute("videos", videoDao.lire());
 		this.getServletContext().getRequestDispatcher("/WEB-INF/edit_subtitle.jsp").forward(request, response);

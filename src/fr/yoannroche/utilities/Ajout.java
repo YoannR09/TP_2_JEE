@@ -15,6 +15,11 @@ public class Ajout {
 	int second = 0;
 	
 
+	/**
+	 * Classe qui récupère le fichier srt transmis par l'utilisateur.
+	 * On affiche le texte de la video et on placera des champs vide en dessous pour la traduction.
+	 * @param fileName
+	 */
 	public Ajout(String fileName) {
 		originalSubtitles = new ArrayList<String>();
 		translatedSubtitles = new ArrayList<String>();
@@ -48,8 +53,8 @@ public class Ajout {
 							second++;
 						}
 						else {
-							tempsLigne.add("");
-							numeroLigne.add("");
+							tempsLigne.add("");// Pas de deuxième ligne on met un texte vide pour se lié au temps précédent.
+							numeroLigne.add("");  // Pas de deuxième ligne on met un texte vide pour se lié au numéro de ligne précédent.
 						}
 						originalSubtitles.add(line);	
 					}

@@ -2,19 +2,13 @@ package fr.yoannroche.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.yoannroche.beans.SousTitres;
-import fr.yoannroche.beans.Video;
 
 public class SousTitresDao implements DAOSousTitres{
 	
 	private DaoFactory daoFactory;
-	private Video video;
 
 	public SousTitresDao(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
