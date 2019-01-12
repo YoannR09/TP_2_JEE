@@ -39,21 +39,21 @@ public class Sauvegarde {
 		int type = 1;
 		int ligne = 0 ;
 		try {
-		   
-			
+
+
 			/**
 			 * Création des fichiers ou alors remplacement si ils existent déjà.
 			 * Le fichier prendra le nom de la video.
 			 */
-			PrintWriter writerO = new PrintWriter(context.getRealPath("resources/original/"+nomVideo+".srt"));
-			PrintWriter writerT = new PrintWriter(context.getRealPath("resources/traduction/"+nomVideo+".srt"));
+			PrintWriter writerO = new PrintWriter(context.getRealPath("resources/original/"+nomVideo+".srt")); // Problème ici !!
+			PrintWriter writerT = new PrintWriter(context.getRealPath("resources/traduction/"+nomVideo+".srt")); // Problème ici !!
 
 			String line;
 			Video video = new Video();
 			video.setNom(nomVideo);
 			video.setUrl(request.getParameter("fichier"));
-			videoDao.ajouter(video);
-			videoDao.recupId(video);
+			videoDao.ajouter(video); // Création de la video dans la base données.
+			videoDao.recupId(video); // Les sous titres on besoin de la clé étrangère video_id.
 			SousTitres st = new SousTitres();
 			br = new BufferedReader(new FileReader(file));
 			int i = 0;
@@ -80,11 +80,11 @@ public class Sauvegarde {
 				case 3: //Si le texte est vide on repart au début.
 					if(line.isEmpty()) {
 						if(!ajoutDeux) {
-						st.setLigne2("");
-						st.setTraduction2("");
+							st.setLigne2("");
+							st.setTraduction2("");
 						}
 						st.setVideoId(video.getId());
-						stDao.ajouter(st);
+						stDao.ajouter(st); // Enregistrement de la ligne de sous-titres dans la base de données.
 						writerO.println("");
 						writerT.println("");
 						ligne=0;
