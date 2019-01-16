@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.yoannroche.dao.AbstractDaoFactory;
 import fr.yoannroche.dao.DAOSousTitres;
 import fr.yoannroche.dao.DAOVideo;
 import fr.yoannroche.dao.DaoFactory;
@@ -26,6 +27,7 @@ public class EditSubtitle extends HttpServlet {
 	private String nomVideo;
 	private String urlVideo;
 	private String lastBtn;
+	
 
 	public void init() throws ServletException {
 		DaoFactory daoFactory = DaoFactory.getInstance();
@@ -85,11 +87,14 @@ public class EditSubtitle extends HttpServlet {
 			lastBtn = btn;
 			String nomFichier = request.getParameter("select");
 			String file = "/WEB-INF/original/"+nomFichier+".srt";
-			Lire lire = new Lire(request,context.getRealPath(file),stDao);
+			String fileTrade = "/WEB-INF/traduction/"+nomFichier+".srt";
+			Lire lire = new Lire(request,context.getRealPath(file),stDao,context.getRealPath(fileTrade));
 			request.setAttribute("subtitles", lire.getSubtitles());
 			request.setAttribute("traduction", lire.getTranslated());
 			request.setAttribute("temps", lire.getTemps());
 			request.setAttribute("numero", lire.getNumero());
+			nomVideo = nomFichier;
+			urlVideo = file;
 		}
 		
 		/**

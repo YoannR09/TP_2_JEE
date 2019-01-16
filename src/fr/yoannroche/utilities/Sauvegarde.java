@@ -38,16 +38,18 @@ public class Sauvegarde {
 		BufferedReader br;
 		int type = 1;
 		int ligne = 0 ;
-		try {
+		// try {
 
 
 			/**
 			 * Création des fichiers ou alors remplacement si ils existent déjà.
 			 * Le fichier prendra le nom de la video.
 			 */
-			PrintWriter writerO = new PrintWriter(context.getRealPath("resources/original/"+nomVideo+".srt")); // Problème ici !!
-			PrintWriter writerT = new PrintWriter(context.getRealPath("resources/traduction/"+nomVideo+".srt")); // Problème ici !!
-
+			//  PrintWriter writerO = new PrintWriter(context.getRealPath(nomVideo+".srt")); // Problème ici !!
+			//  PrintWriter writerT = new PrintWriter(context.getRealPath(nomVideo+".srt")); // Problème ici !!
+			 System.out.println(context.getRealPath("/WEB-INF/traduction/password_presentation.srt"));
+			 
+/*
 			String line;
 			Video video = new Video();
 			video.setNom(nomVideo);
@@ -56,12 +58,13 @@ public class Sauvegarde {
 			videoDao.recupId(video); // Les sous titres on besoin de la clé étrangère video_id.
 			SousTitres st = new SousTitres();
 			br = new BufferedReader(new FileReader(file));
-			int i = 0;
+			int i = 0; 
+*/
 
 			/**
 			 * Boucle pour lire les lignes.
 			 */
-			while ( (line=br.readLine())!=null ) {
+/* 			while ( (line=br.readLine())!=null ) {
 
 
 				switch (type) {
@@ -123,6 +126,7 @@ public class Sauvegarde {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+*/
 	}
 }
 

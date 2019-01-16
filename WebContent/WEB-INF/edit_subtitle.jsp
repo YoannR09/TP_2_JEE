@@ -14,15 +14,22 @@
 
 <style type="text/css">
 body {
-	background-color: #FFFFFF;
+	background-color: white;
 }
 
-#tempsAffichage {
-	font-family: Arial Narrow, sans-serif;
+#select {
+	width: 200px;
+}
+
+input {
+	height: 40px;
 }
 
 #tradeBar {
-	background-color: #FFF5EE;
+	background-color: #87CEEB;
+	border-radius: 5px;
+	border: 1px black solid;
+	height: 60px;
 }
 
 #ajouter, #lire, #sauvegarder {
@@ -46,7 +53,8 @@ body {
 }
 
 #bottom {
-	justify-content: space-around;
+	display: flex;
+	justify-content: space-arround;
 	text-align: center;
 }
 
@@ -55,8 +63,43 @@ body {
 	justify-content: space-around;
 }
 
+#blocTexte {
+	height: 60px;
+	text-align: center;
+	border-radius: 5px;
+	border: 1px black solid;
+	background-color: #FFFFFF;
+}
+
+#blocTemps {
+	background-color: #F0F8FF;
+	text-align: center;
+	border-radius: 5px;
+	border: 1px black solid;
+	height: 60px;
+	font-family: Arial Narrow, sans-serif;
+	font-size: 1.3em;
+}
+
+tr {
+	border-spacing: 5px;
+}
+#indice
+{
+	border: 1px black solid;
+}
+
+
+#blocNum {
+	height: 60px;
+	text-align: center;
+	font-family: impact;
+	font-size: 1.5em;
+	background-color :#FF4500;
+	border: 1px black solid;
+}
+
 #submit {
-	border-radius: 25px;
 	margin: 10px;
 }
 
@@ -155,76 +198,102 @@ h2, #tableau {
 		la ligne, le temps, le texte original et la traduction seront
 		affichés.  --%>
 
-		<div class="col-lg-12  col-md-12 col-sm-12 " id="bottom">
-			<div id="table">
+
+		<div id="table" class="col-lg-1  col-md-1 col-sm-1">
+
+
+
+			<%--  Boucle qui affiche les numéros des lignes. --%>
+
+			<table class="table table-bordered " id="tableau">
+				<tr>
+					<td id="indice" class="bg-primary">N°</td>
+				</tr>
+				<c:forEach items="${ numero }" var="num" varStatus="status">
+
+					<tr>
+
+						<td class="bg-primary" id="blocNum"><c:out value="${ num }" /></td>
+					</tr>
+
+				</c:forEach>
+			</table>
+		</div>
+
+		<%--  Boucle qui affiche le temps des lignes. --%>
+		<div id="table" class="col-lg-4  col-md-4 col-sm-4">
+			<table class="table table-bordered " id="tableau">
+				<tr>
+					<td id="indice" class="bg-primary">Durée du texte</td>
+				</tr>
+				<c:forEach items="${ temps }" var="tem" varStatus="status">
+					<tr>
+						<td class="bg-info" id="blocTemps" ><c:out value="${ tem }" /></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+
+		<%--  Boucle qui affiche les lignes du texte original. --%>
+		<div id="table" class="col-lg-4  col-md-4 col-sm-4">
+
+			<table class="table table-bordered " id="tableau">
+				<tr>
+					<td id="indice" class="bg-primary">Texte original</td>
+				</tr>
+				<c:forEach items="${ subtitles }" var="line" varStatus="status">
+					<tr>
+						<td id="blocTexte"><c:out value="${ line }" /></td>
+					</tr>
+				</c:forEach>
+			</table>
+
+		</div>
+
+		<c:if test="${ submit eq 'lire' }">
+
+
+			<%--  Boucle qui affiche les lignes pour la traduction. --%>
+			<div id="table" class="col-lg-3  col-md-3 col-sm-3">
 				<table class="table table-bordered " id="tableau">
-					<tr class="table-primary">
-
-						<%--  Boucle qui affiche les numéros des lignes. --%>
-
-						<c:forEach items="${ numero }" var="num" varStatus="status">
-
-							<td style="height: 10%; text-align: center;" class="bg-primary"
-								id="num${ status.index }"><c:out value="${ num }" /></td>
-						</c:forEach>
-
+					<tr>
+						<td id="indice" class="bg-primary">Traduction</td>
 					</tr>
-					<tr class="table-primary">
+					<c:forEach items="${ traduction }" var="lineTrade"
+						varStatus="status">
+						<tr>
+							<td id="tradeBar"><input type="text"
+								name="lineTraductionLire${ status.index }"
+								id="lineTradeLire${ status.index }" size="20"
+								value="${ lineTrade }" /></td>
 
-						<%--  Boucle qui affiche le temps des lignes. --%>
-
-						<c:forEach items="${ temps }" var="tem" varStatus="status">
-
-							<td style="text-align: center; height: 3%;" class="bg-info"
-								id="tem${ status.index }"><c:out value="${ tem }" /></td>
-
-						</c:forEach>
-
-					</tr>
-					<tr class="table-primary">
-
-						<%--  Boucle qui affiche les lignes du texte original. --%>
-
-						<c:forEach items="${ subtitles }" var="line" varStatus="status">
-
-							<td style="height: 10%; text-align: center;"><c:out
-									value="${ line }" /></td>
-						</c:forEach>
-
-					</tr>
-
-					<c:if test="${ submit eq 'lire' }">
-						<tr class="table-primary">
-
-							<%--  Boucle qui affiche les lignes pour la traduction. --%>
-
-							<c:forEach items="${ traduction }" var="lineTrade"
-								varStatus="status">
-								<td style="height: 10%; text-align: center;" id="tradeBar"><input
-									type="text" name="lineTraductionLire${ status.index }"
-									id="lineTradeLire${ status.index }" size="35"
-									value="${ lineTrade }" /></td>
-
-
-							</c:forEach>
 						</tr>
-					</c:if>
-					<c:if test="${ submit eq 'ajouter' }">
-						<tr class="table-primary">
-
-							<%--  Boucle qui affiche les lignes pour la traduction. --%>
-
-							<c:forEach items="${ subtitles }" var="lineTrade"
-								varStatus="status">
-
-								<td style="height: 10%; text-align: center;" id="tradeBar"><input
-									type="text" name="lineTraductionAjouter${ status.index }"
-									id="lineTradeAjouter${ status.index }" size="35" /></td>
-							</c:forEach>
-						</tr>
-					</c:if>
+					</c:forEach>
 				</table>
 			</div>
-		</div>
+		</c:if>
+		<c:if test="${ submit eq 'ajouter' }">
+
+
+			<%--  Boucle qui affiche les lignes pour la traduction. --%>
+
+			<div id="table" class="col-lg-3  col-md-3 col-sm-3">
+				<table class="table table-bordered " id="tableau">
+					<tr>
+						<td id="indice" class="bg-primary">Traduction</td>
+					</tr>
+					<c:forEach items="${ subtitles }" var="lineTrade"
+						varStatus="status">
+						<tr>
+							<td id="tradeBar"><input type="text"
+								name="lineTraductionAjouter${ status.index }"
+								id="lineTradeAjouter${ status.index }" size="20" /></td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</c:if>
+
+	        <input type="submit" style="position:fixed; top: 10px; right: 10px;" />
 	</form>
 </body>

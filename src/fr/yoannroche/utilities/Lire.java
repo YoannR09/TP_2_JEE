@@ -26,8 +26,9 @@ public class Lire {
 	 * @param request
 	 * @param file
 	 * @param stDao
+	 * @param fileTrade 
 	 */
-	public Lire(HttpServletRequest request, String file, DAOSousTitres stDao) {
+	public Lire(HttpServletRequest request, String file, DAOSousTitres stDao, String fileTrade) {
 		originalSubtitles = new ArrayList<String>();
 		translatedSubtitles = new ArrayList<String>();
 		numeroLigne = new ArrayList<String>();
@@ -74,7 +75,7 @@ public class Lire {
 		}
 		try {
 			int type = 1 ;
-			br = new BufferedReader(new FileReader(file));
+			br = new BufferedReader(new FileReader(fileTrade));
 			String line;
 
 			/**

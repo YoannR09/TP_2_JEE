@@ -12,22 +12,22 @@ import fr.yoannroche.beans.Video;
 
 public class VideoDao implements DAOVideo{
 
-	private DaoFactory daoFactory;
+	private Connection conn;
+	
 
-	public VideoDao(DaoFactory daoFactory) {
-		this.daoFactory = daoFactory;
+	public VideoDao(Connection conn) {
+		this.conn = conn;
 	}
 
 	public List <Video> lire() {
 
 		List<Video> videos = new ArrayList<Video>();
-		Connection connexion = null;
+		
 		ResultSet resultat = null;
 		Statement statement = null;
 
 		 try {
-			 	connexion = daoFactory.getConnection();
-	            statement = connexion.createStatement();
+	            statement = conn.createStatement();
 
 	            // Exécution de la requête
 	            resultat = statement.executeQuery("SELECT id,nom, url FROM video;");
@@ -54,8 +54,6 @@ public class VideoDao implements DAOVideo{
 	                    resultat.close();
 	                if (statement != null)
 	                    statement.close();
-	                if (connexion != null)
-	                    connexion.close();
 	            } catch (SQLException ignore) {
 	            }
 	        }
@@ -65,13 +63,11 @@ public class VideoDao implements DAOVideo{
 
 	public void ajouter(Video video) {
 
-		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
 
 		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement("INSERT INTO video(nom, url) VALUES(?, ?);");
+			preparedStatement = conn.prepareStatement("INSERT INTO video(nom, url) VALUES(?, ?);");
 			preparedStatement.setString(1, video.getNom());
 			preparedStatement.setString(2, video.getUrl());
 			preparedStatement.executeUpdate();
@@ -84,13 +80,11 @@ public class VideoDao implements DAOVideo{
 	
 	public void recupId(Video video) {
 		
-		Connection connect = null;
 		ResultSet resultat = null;
 		Statement statement = null;
 		
 		 try {
-			 	connect = daoFactory.getConnection();
-	            statement = connect.createStatement();
+	            statement = conn.createStatement();
 	            
 	            resultat = statement.executeQuery("SELECT id FROM video WHERE nom = '"+video.getNom()+"'");
 	            

@@ -4,44 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DaoFactory {
-	private String url;
-	private String username;
-	private String password;
-	private static DaoFactory instance;
+public class DaoFactory extends AbstractDaoFactory {
+	private static Connection conn = Singleton.getInstance();
 
-	DaoFactory(String url, String username, String password) {
-		this.url = url;
-		this.username = username;
-		this.password = password;
+	DaoFactory() {
+	
 	}
 
-	public static DaoFactory getInstance() {
-
-		if (instance == null) {
-			synchronized (DaoFactory.class) {
-				try {
-					Class.forName("org.postgresql.Driver");
-				} catch (ClassNotFoundException e) {
-
-				}
-
-				instance = new DaoFactory(
-						"jdbc:postgresql://localhost:5432/trade", "postgres", "Yocorps17");
-			}
-		}
+	public static DaoFactory getInstance()  {
+		DaoFactory instance = new DaoFactory();
 		return instance;
-	}
-
-	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(url, username, password);
 	}
 
 	// Récupération du Dao
 	public DAOVideo getVideoDao() {
-		return new VideoDao(this);
+		return new VideoDao(conn);
 	}
 	public DAOSousTitres getSousTitres() {
-		return new SousTitresDao(this);
+		return new SousTitresDao(conn);
 	}
+
 }
