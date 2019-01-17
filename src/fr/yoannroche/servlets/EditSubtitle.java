@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.yoannroche.beans.Video;
 import fr.yoannroche.dao.AbstractDaoFactory;
 import fr.yoannroche.dao.DAOSousTitres;
 import fr.yoannroche.dao.DAOVideo;
@@ -93,11 +94,16 @@ public class EditSubtitle extends HttpServlet {
 			nomVideo = nomFichier;
 			urlVideo = lire.getUrlVideo();
 		}
+		else if(btn.equals("supprimer")) {
+			Video video = new Video();
+			video.setNom(request.getParameter("select"));
+			videoDao.recupId(video);
+			videoDao.suppr(video);
+		}
 		
 		/**
 		 * On définis la liste de videos disponible dans la base de données.
 		 */
-		request.setAttribute("select", request.getParameter("select"));
 		request.setAttribute("videos", videoDao.lire());
 		this.getServletContext().getRequestDispatcher("/WEB-INF/edit_subtitle.jsp").forward(request, response);
 	}

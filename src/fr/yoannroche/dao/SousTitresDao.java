@@ -64,11 +64,20 @@ public class SousTitresDao implements DAOSousTitres{
                 String ligne1 = resultat.getString("ligne1");
                 originalSubtitles.add(ligne1);
                 String ligne2 = resultat.getString("ligne2");
-                originalSubtitles.add(ligne2);
+                if(!ligne2.isEmpty()) {
+                	numeroLigne.add("");
+                	tempsLigne.add("");
+                	originalSubtitles.add(ligne2);
+                }
                 String traduction1 = resultat.getString("traduction1");
                 translatedSubtitles.add(traduction1);
-                String traduction2 = resultat.getString("traduction1");
-                translatedSubtitles.add(traduction2);
+                
+                if(!ligne2.isEmpty()) {
+                	 String traduction2 = resultat.getString("traduction2");
+                     translatedSubtitles.add(traduction2);
+                }
+               
+                
             }
         } catch (SQLException e) {
         	e.printStackTrace();

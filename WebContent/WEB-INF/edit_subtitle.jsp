@@ -9,6 +9,7 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
 	rel="stylesheet">
+
 <meta charset="utf-8" />
 <title>Editer les sous-titres</title>
 
@@ -16,18 +17,19 @@
 body {
 	background-color: white;
 }
-#top
-{
-border-radius: 0px;
-border-bottom-left-radius: 10px;
-border-bottom-right-radius: 10px;
-border: 1px groove black;
+
+#top {
+	border-radius: 0px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border: 1px groove black;
 }
 
 #select, #nom {
 	width: 80%;
 	border: 1px black solid;
 	border-radius: 5px;
+	margin-bottom: 3%;
 }
 
 input {
@@ -143,9 +145,9 @@ h2, #tableau {
 					<h4>
 
 						<span class="label label-primary"><label for="nom">Nom
-								de la vidéo </label></span> <input type="text" name="nom" id="nom" />
+								de la vidéo </label></span>
 					</h4>
-
+					<input type="text" name="nom" id="nom" />
 					<p>
 						<input type="file" name="fichier" id="fichier"
 							class="btn btn-primary" /> <a href="#"
@@ -172,9 +174,13 @@ h2, #tableau {
 					<div class="panel-heading" id="topLire">
 						<h3 class="panel-title">Lire</h3>
 					</div>
-					<label for="select" class="col-lg-2 control-label"></label> <select
-						class="form-control" name="select" id="select">
-						<option value="${ select }" selected>${ select }</option>
+
+					<h4>
+
+						<span class="label label-primary"><label for="select">Sélectionner
+								votre fichier </label></span>
+					</h4>
+					<select class="form-control" name="select" id="select">
 						<c:forEach items="${ videos }" var="videoSelect"
 							varStatus="status">
 							<option value="${ videoSelect.nom }">${ videoSelect.nom }</option>
@@ -185,6 +191,38 @@ h2, #tableau {
 						name="submit" value="lire">
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
+
+					<button type="button" class="btn btn-danger" data-toggle="modal"
+						data-target="#exampleModalLong">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+
+
+					<%-- Affichage de la pop-up --%>
+					<div class="modal fade" id="exampleModalLong" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLongTitle"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle">Supprimer
+										fichier</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">Voulez vous vraiment supprimer ce
+									fichier de la base de données ?</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button class="btn btn-danger" type="submit" id="submit"
+										name="submit" value="supprimer">Supprimer</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -317,5 +355,13 @@ h2, #tableau {
 					class="glyphicon glyphicon-arrow-up"></span> </a>
 			</div>
 		</div>
+
 	</form>
+
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </body>

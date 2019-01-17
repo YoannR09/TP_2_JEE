@@ -11,5 +11,7 @@ public interface DAOVideo {
 	List<Video> lire();
 	
 	void recupId( Video video);
+	
+	void suppr(Video video);
 
 }
