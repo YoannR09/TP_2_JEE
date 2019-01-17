@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.yoannroche.beans.Video;
 import fr.yoannroche.dao.DAOSousTitres;
+import fr.yoannroche.dao.DAOVideo;
 
 public class Lire {
 
@@ -15,6 +17,7 @@ public class Lire {
 	private ArrayList<String> translatedSubtitles = null;
 	private ArrayList<String> numeroLigne = null;
 	private ArrayList<String> tempsLigne = null;
+	private String urlVideo;
 	int ligne = 0;
 	int i = 0;
 	int second = 0;
@@ -27,85 +30,26 @@ public class Lire {
 	 * @param file
 	 * @param stDao
 	 * @param fileTrade 
+	 * @param videoDao 
 	 */
-	public Lire(HttpServletRequest request, String file, DAOSousTitres stDao, String fileTrade) {
+	public Lire(HttpServletRequest request, DAOSousTitres stDao, DAOVideo videoDao) {
 		originalSubtitles = new ArrayList<String>();
 		translatedSubtitles = new ArrayList<String>();
 		numeroLigne = new ArrayList<String>();
 		tempsLigne = new ArrayList<String>();
 
-		BufferedReader br;
-		try {
-			int type = 1 ;
-			br = new BufferedReader(new FileReader(file));
-			String line;
-
-			/**
-			 * Boucle pour lire les lignes.
-			 */
-			while ( (line=br.readLine())!=null ) {
-				switch (type) {
-				case 1 : //Première ligne pour récupérer le numero.
-					second= 0;
-					numeroLigne.add(line);
-					type++; 
-					break;
-				case 2 : //Deuxième ligne pour récupérer le temps.
-					tempsLigne.add(line);
-					type++;
-					break; 
-				case 3: //Si le texte est vide on repart au début.
-					if (line.isEmpty()) {
-						type = 1;
-					} else {
-						if(second == 0) {
-							second++;
-						}
-						else {
-							tempsLigne.add(""); // Pas de deuxième ligne on met un texte vide pour se lié au temps précédent.
-							numeroLigne.add(""); // Pas de deuxième ligne on met un texte vide pour se lié au numéro de ligne précédent
-						}
-						originalSubtitles.add(line);	
-					}
-				}
-			}
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			int type = 1 ;
-			br = new BufferedReader(new FileReader(fileTrade));
-			String line;
-
-			/**
-			 * Boucle pour lire les lignes.
-			 */
-			while ( (line=br.readLine())!=null ) {
-				switch (type) {
-				case 1 : //Première ligne pour récupérer le numero.
-					type++; 
-					break;
-				case 2 : //Deuxième ligne pour récupérer le temps.
-					type++;
-					break; 
-				case 3: //Si le texte est vide on repart au début.
-					if (line.isEmpty()) {
-						type = 1;
-					} else {
-						translatedSubtitles.add(line);	
-					}
-				}
-			}
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Video video = new Video();
+		video.setNom(request.getParameter("select"));
+		videoDao.recupId(video);
+		urlVideo = video.getUrl();
+		stDao.lire(video,originalSubtitles,translatedSubtitles,numeroLigne,tempsLigne);
+		request.setAttribute("fichier", video.getUrl());
 	}
 
 
-
-
+	public String getUrlVideo() {
+		return urlVideo;
+	}
 	public ArrayList<String> getSubtitles() {
 		return originalSubtitles;
 	}

@@ -63,7 +63,6 @@ public class EditSubtitle extends HttpServlet {
 			Ajout ajout = new Ajout(urlVideo);
 			request.setAttribute("subtitles", ajout.getSubtitles());
 			nomVideo = request.getParameter("nom");
-			urlVideo = request.getParameter("fichier");
 			request.setAttribute("temps", ajout.getTemps());
 			request.setAttribute("numero", ajout.getNumero());
 		}
@@ -86,15 +85,13 @@ public class EditSubtitle extends HttpServlet {
 		else if(btn.equals("lire")) {
 			lastBtn = btn;
 			String nomFichier = request.getParameter("select");
-			String file = "/WEB-INF/original/"+nomFichier+".srt";
-			String fileTrade = "/WEB-INF/traduction/"+nomFichier+".srt";
-			Lire lire = new Lire(request,context.getRealPath(file),stDao,context.getRealPath(fileTrade));
+			Lire lire = new Lire(request,stDao,videoDao);
 			request.setAttribute("subtitles", lire.getSubtitles());
 			request.setAttribute("traduction", lire.getTranslated());
 			request.setAttribute("temps", lire.getTemps());
 			request.setAttribute("numero", lire.getNumero());
 			nomVideo = nomFichier;
-			urlVideo = file;
+			urlVideo = lire.getUrlVideo();
 		}
 		
 		/**
