@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.yoannroche.beans.Video;
 
 public class VideoDao implements DAOVideo{
@@ -151,4 +153,32 @@ public class VideoDao implements DAOVideo{
 		}
 
 	}
+
+	
+	// Si la vidéo est lu depuis la base de données et ensuite sauvegardé, les lignes de traduction seront update.
+	/*public void update(Video video,HttpServletRequest request) {
+		
+		ResultSet resultat = null;
+		Statement statement = null;
+		int i = 0;
+		try {
+			statement = conn.createStatement();
+
+			resultat = statement.executeQuery("SELECT traduction1,traduction2 FROM sous_titres WHERE video_id = '"+video.getId()+"'");
+
+
+			while (resultat.next()) {
+				
+				statement.executeQuery("UPDATE sous_titres SET traduction1= '"+ request.getParameter("lineTraductionLire"+i)+"'");
+				i++;
+				statement.executeQuery("UPDATE sous_titres SET traduction2= '"+ request.getParameter("lineTraductionLire"+i)+"'");
+				i++;
+
+			}
+		
+			
+		}catch(SQLException e) {
+
+		}
+	}*/
 }

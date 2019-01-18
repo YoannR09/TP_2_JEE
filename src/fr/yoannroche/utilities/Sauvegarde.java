@@ -3,6 +3,7 @@ package fr.yoannroche.utilities;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -37,24 +38,24 @@ public class Sauvegarde {
 		BufferedReader br;
 		int type = 1;
 		int ligne = 0 ;
-		 try {
+		try {
 
 
 			/**
 			 * Création des fichiers ou alors remplacement si ils existent déjà.
 			 * Le fichier prendra le nom de la video.
 			 */
-			//  PrintWriter writerO = new PrintWriter(context.getRealPath(nomVideo+".srt")); // Problème ici !!
-			//  PrintWriter writerT = new PrintWriter(context.getRealPath(nomVideo+".srt")); // Problème ici !!
-			 
+			
+			 PrintWriter writerT = new PrintWriter(context.getRealPath("/WEB-INF/traduction/"+nomVideo+".srt"),"UTF-8");
+
 
 			String line;
+			SousTitres st = new SousTitres();
 			Video video = new Video();
 			video.setNom(nomVideo);
 			video.setUrl(urlVideo);
 			videoDao.ajouter(video); // Création de la video dans la base données.
 			videoDao.recupId(video); // Les sous titres on besoin de la clé étrangère video_id.
-			SousTitres st = new SousTitres();
 			br = new BufferedReader(new FileReader(urlVideo));
 			int i = 0; 
 
@@ -68,12 +69,12 @@ public class Sauvegarde {
 				switch (type) {
 				case 1 : //Première ligne pour récupérer le numero.
 					st.setNumeroLigne(Integer.parseInt(line));
-					// writerT.println(line);
+					writerT.println(line);
 					type++; 
 					break;
 				case 2 : //Deuxième ligne pour récupérer le temps.
 					st.setTemps(line);
-			//		writerT.println(line);
+					writerT.println(line);
 					type++;
 					break; 
 				case 3: //Si le texte est vide on repart au début.
@@ -84,7 +85,7 @@ public class Sauvegarde {
 						}
 						st.setVideoId(video.getId());
 						stDao.ajouter(st); // Enregistrement de la ligne de sous-titres dans la base de données.
-					//	writerT.println("");
+						writerT.println("");
 						ligne=0;
 						type=1;
 					}
@@ -99,21 +100,21 @@ public class Sauvegarde {
 						if(ligne==0) { // On ajoute la première ligne.
 							st.setLigne1(line);
 							st.setTraduction1(trade);
-							// writerT.println(trade);
+							writerT.println(trade);
 							ligne++;
 							ajoutDeux = false;
 						}
 						else {	// On ajoute la deuxième ligne.
 							st.setLigne2(line);
 							st.setTraduction2(trade);
-						//	writerT.println(trade);
+							writerT.println(trade);
 							ajoutDeux = true;
 						}
 					}
 				}
 
 			}
-			// writerT.close();
+			 writerT.close();
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();

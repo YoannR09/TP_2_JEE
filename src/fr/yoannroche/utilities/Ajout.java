@@ -65,6 +65,9 @@ public class Ajout {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
 
 	public ArrayList<String> getSubtitles() {
 		return originalSubtitles;

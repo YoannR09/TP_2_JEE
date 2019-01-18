@@ -25,8 +25,8 @@ body {
 	border: 1px groove black;
 }
 
-#select, #nom {
-	width: 80%;
+#select,#nom {
+	width: 60%;
 	border: 1px black solid;
 	border-radius: 5px;
 	margin-bottom: 3%;
@@ -148,7 +148,9 @@ h2, #tableau {
 								de la vidéo </label></span>
 					</h4>
 					<input type="text" name="nom" id="nom" />
+					
 					<p>
+					
 						<input type="file" name="fichier" id="fichier"
 							class="btn btn-primary" /> <a href="#"
 							onclick='document.getElementById("fichier").click();'
@@ -320,7 +322,7 @@ h2, #tableau {
 						<c:forEach items="${ traduction }" var="lineTrade"
 							varStatus="status">
 							<tr>
-								<td id="tradeBar"><input type="text" size="30"
+								<td id="tradeBar"><input type="text" style="width :95%;"
 									name="lineTraductionLire${ status.index }"
 									id="lineTradeLire${ status.index }" value="${ lineTrade }" /></td>
 
@@ -342,15 +344,15 @@ h2, #tableau {
 						<c:forEach items="${ subtitles }" var="lineTrade"
 							varStatus="status">
 							<tr>
-								<td id="tradeBar"><input type="text"
-									name="lineTraductionAjouter${ status.index }" size="30"
+								<td id="tradeBar"><input type="text" style="width :95%;"
+									name="lineTraductionAjouter${ status.index }"
 									id="lineTradeAjouter${ status.index }" /></td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
 			</c:if>
-			<div style="position: fixed; bottom: 1%; left: 47%;">
+			<div style="position: fixed; bottom: 1%; left: 50%;">
 				<a href="#top" class="btn btn-primary btn-primary"><span
 					class="glyphicon glyphicon-arrow-up"></span> </a>
 			</div>
