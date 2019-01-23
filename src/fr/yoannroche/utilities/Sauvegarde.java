@@ -21,6 +21,8 @@ public class Sauvegarde {
 	int ligneAjout = 0;
 	String trade;
 	boolean ajoutDeux = false;
+	public static final int TAILLE_TAMPON = 10240;
+	public static final String CHEMIN_FICHIERS = "/Users/El-ra/traduction/"; // url création du fichier de la traduction
 
 
 	/**
@@ -46,7 +48,7 @@ public class Sauvegarde {
 			 * Le fichier prendra le nom de la video.
 			 */
 			
-			 PrintWriter writerT = new PrintWriter(context.getRealPath("/WEB-INF/traduction/"+nomVideo+".srt"),"UTF-8");
+			 PrintWriter writerT = new PrintWriter(CHEMIN_FICHIERS+nomVideo+".srt","UTF-8");
 
 
 			String line;
@@ -112,8 +114,9 @@ public class Sauvegarde {
 						}
 					}
 				}
-
+				
 			}
+			
 			 writerT.close();
 			br.close();
 		} catch (IOException e) {

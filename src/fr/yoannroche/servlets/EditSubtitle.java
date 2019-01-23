@@ -27,7 +27,7 @@ import fr.yoannroche.utilities.Sauvegarde;
 public class EditSubtitle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final int TAILLE_TAMPON = 10240;
-	public static final String CHEMIN_FICHIERS = "/Users/El-ra/test/";
+	public static final String CHEMIN_FICHIERS = "/Users/El-ra/original/";
 	private DAOVideo videoDao;
 	private DAOSousTitres stDao;
 	private String nomVideo;
