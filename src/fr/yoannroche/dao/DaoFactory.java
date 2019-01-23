@@ -1,8 +1,6 @@
 package fr.yoannroche.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DaoFactory extends AbstractDaoFactory {
 	private static Connection conn = Singleton.getInstance();

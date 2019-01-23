@@ -21,22 +21,18 @@ import fr.yoannroche.dao.DaoFactory;
 import fr.yoannroche.utilities.Ajout;
 import fr.yoannroche.utilities.Lire;
 import fr.yoannroche.utilities.Sauvegarde;
-import fr.yoannroche.utilities.Utilities;
-
 
 
 @WebServlet("/EditSubtitle")
 public class EditSubtitle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final int TAILLE_TAMPON = 10240;
-	public static final String CHEMIN_FICHIERS = "/WEB-INF/original/";
+	public static final String CHEMIN_FICHIERS = "/Users/El-ra/test/";
 	private DAOVideo videoDao;
 	private DAOSousTitres stDao;
 	private String nomVideo;
 	private String urlVideo;
 	private String lastBtn;
-	private Utilities utilities;
-
 
 	public void init() throws ServletException {
 		DaoFactory daoFactory = DaoFactory.getInstance();
@@ -60,23 +56,27 @@ public class EditSubtitle extends HttpServlet {
 		ServletContext context = getServletContext();
 		String btn = request.getParameter("submit");
 		request.setAttribute("submit", btn);
+		System.out.println(btn);
+
+		boolean multipart = false;
+		if (request.getContentType().substring(0, 19).equals("multipart/form-data")) 
+		{
+			multipart = true;
+		}
+
 
 		/**
 		 * Si on clique sur le bouton ajouter.
 		 * La classe Ajout récupère le fichier srt que l'utilisateur à choisit.
 		 * Le texte original sera affiché et des champs vides pour faire la traduction.
 		 */
-		if(btn.equals("ajouter")) {
-			lastBtn = btn;
-			urlVideo = request.getParameter("fichier");
-			
-			
-/*	
+		if(multipart && btn == null) {
+			lastBtn = "ajouter";
 			Part part = request.getPart("fichier");
 
-
 			// On vérifie qu'on a bien reçu un fichier
-			String nomFichier = utilities.getNomFichier(part);
+			String nomFichier = getNomFichier(part);
+
 
 			// Si on a bien un fichier
 			if (nomFichier != null && !nomFichier.isEmpty()) {
@@ -86,17 +86,18 @@ public class EditSubtitle extends HttpServlet {
 						.substring(nomFichier.lastIndexOf('\\') + 1);
 
 				// On écrit définitivement le fichier sur le disque
-				utilities.ecrireFichier(part, nomFichier, CHEMIN_FICHIERS);
+				ecrireFichier(part, nomFichier, CHEMIN_FICHIERS);
 
 				request.setAttribute(nomChamp, nomFichier);
 			}
-*/
-			
-			Ajout ajout = new Ajout(urlVideo);
+			urlVideo =(CHEMIN_FICHIERS+nomFichier);
+			Ajout ajout = new Ajout(CHEMIN_FICHIERS,nomFichier);
 			request.setAttribute("subtitles", ajout.getSubtitles());
 			nomVideo = request.getParameter("nom");
 			request.setAttribute("temps", ajout.getTemps());
 			request.setAttribute("numero", ajout.getNumero());
+			String add = "ok";
+			request.setAttribute("add", add);
 		}
 
 		/**
@@ -115,8 +116,10 @@ public class EditSubtitle extends HttpServlet {
 		 */
 
 		else if(btn.equals("lire")) {
+			
 			lastBtn = btn;
 			String nomFichier = request.getParameter("select");
+			System.out.println("test request  "+nomFichier);
 			Lire lire = new Lire(request,stDao,videoDao);
 			request.setAttribute("subtitles", lire.getSubtitles());
 			request.setAttribute("traduction", lire.getTranslated());
@@ -140,6 +143,42 @@ public class EditSubtitle extends HttpServlet {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/edit_subtitle.jsp").forward(request, response);
 	}
 
-	
+	private void ecrireFichier( Part part, String nomFichier, String chemin ) throws IOException {
+		BufferedInputStream entree = null;
+		BufferedOutputStream sortie = null;
+		try {
+			entree = new BufferedInputStream(part.getInputStream(), TAILLE_TAMPON);
+			sortie = new BufferedOutputStream(new FileOutputStream(new File(chemin + nomFichier)), TAILLE_TAMPON);
+			System.out.println(entree);
+			System.out.println(sortie);
+
+			byte[] tampon = new byte[TAILLE_TAMPON];
+			int longueur;
+			while ((longueur = entree.read(tampon)) > 0) {
+				sortie.write(tampon, 0, longueur);
+			}
+		} finally {
+			try {
+				sortie.close();
+			} catch (IOException ignore) {
+			}
+			try {
+				entree.close();
+			} catch (IOException ignore) {
+			}
+		}
+	}
+
+	private static String getNomFichier( Part part ) {
+		for ( String contentDisposition : part.getHeader( "content-disposition" ).split( ";" ) ) {
+			if ( contentDisposition.trim().startsWith( "filename" ) ) {
+				return contentDisposition.substring( contentDisposition.indexOf( '=' ) + 1 ).trim().replace( "\"", "" );
+			}
+		}
+		return null;
+	} 
+
+
+
 
 }

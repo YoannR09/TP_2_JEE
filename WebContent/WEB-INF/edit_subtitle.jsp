@@ -25,7 +25,7 @@ body {
 	border: 1px groove black;
 }
 
-#select,#nom {
+#select, #nom {
 	width: 60%;
 	border: 1px black solid;
 	border-radius: 5px;
@@ -130,14 +130,16 @@ h2, #tableau {
 			style="font-size: 2em; font-family: 'Arial Black', Gadget, sans-serif;">Editeur
 			de sous-titres</h2>
 	</nav>
-	<form method="post">
 
-		<%--  Cadre pour ajouter un fichier srt à l'application. L'application
+
+	<%--  Cadre pour ajouter un fichier srt à l'application. L'application
 		va lire le fichier et créer des champs vides pour y mettre la
 		traduction --%>
+<form method="post" enctype="multipart/form-data">
+	<div class="col-lg-12 col-md-12 col-sm-12" id="bloc">
 
-		<div class="col-lg-12 col-md-12 col-sm-12" id="bloc">
-			<div class="col-lg-4  col-md-4 col-sm-4 ">
+		<div class="col-lg-4  col-md-4 col-sm-4 ">
+			
 				<div class="panel panel-primary" id="ajouter">
 					<div class="panel-heading" id="topAjouter">
 						<h3 class="panel-title">Ajouter</h3>
@@ -148,9 +150,9 @@ h2, #tableau {
 								de la vidéo </label></span>
 					</h4>
 					<input type="text" name="nom" id="nom" />
-					
+
 					<p>
-					
+
 						<input type="file" name="fichier" id="fichier"
 							class="btn btn-primary" /> <a href="#"
 							onclick='document.getElementById("fichier").click();'
@@ -161,22 +163,24 @@ h2, #tableau {
 
 
 					<button class="btn btn-primary" type="submit" id="submit"
-						name="submit" value="ajouter">
+						name="ajouter" value="ajouter">
 						<span class="glyphicon glyphicon-plus"></span>
 					</button>
+
 				</div>
-			</div>
+			
+		</div>
 
 
-			<%--  Cadre pour lire un fichier déjà enregistrer dans la base de
+		<%--  Cadre pour lire un fichier déjà enregistrer dans la base de
 			données et stocké dans les fichiers --%>
 
-			<div class=" col-lg-4  col-md-4 col-sm-4  ">
-				<div class="panel panel-primary" id="lire">
-					<div class="panel-heading" id="topLire">
-						<h3 class="panel-title">Lire</h3>
-					</div>
-
+		<div class=" col-lg-4  col-md-4 col-sm-4  ">
+			<div class="panel panel-primary" id="lire">
+				<div class="panel-heading" id="topLire">
+					<h3 class="panel-title">Lire</h3>
+				</div>
+			
 					<h4>
 
 						<span class="label label-primary"><label for="select">Sélectionner
@@ -189,6 +193,7 @@ h2, #tableau {
 						</c:forEach>
 					</select>
 
+
 					<button class="btn btn-primary" type="submit" id="submit"
 						name="submit" value="lire">
 						<span class="glyphicon glyphicon-eye-open"></span>
@@ -198,63 +203,74 @@ h2, #tableau {
 						data-target="#exampleModalLong">
 						<span class="glyphicon glyphicon-remove"></span>
 					</button>
+		
 
+				<%-- Affichage de la pop-up --%>
 
-					<%-- Affichage de la pop-up --%>
-					<div class="modal fade" id="exampleModalLong" tabindex="-1"
-						role="dialog" aria-labelledby="exampleModalLongTitle"
-						aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLongTitle">Supprimer
-										fichier</h5>
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">Voulez vous vraiment supprimer ce
-									fichier de la base de données ?</div>
-								<div class="modal-footer">
+				<div class="modal fade" id="exampleModalLong" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLongTitle"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLongTitle">Supprimer
+									fichier</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">Voulez vous vraiment supprimer ce
+								fichier de la base de données ?</div>
+							<div class="modal-footer">
+								
 									<button type="button" class="btn btn-secondary"
 										data-dismiss="modal">Close</button>
 									<button class="btn btn-danger" type="submit" id="submit"
-										name="submit" value="supprimer">Supprimer</button>
-								</div>
+										name="supprimer" value="supprimer">Supprimer</button>
+								
 							</div>
 						</div>
 					</div>
+							
 				</div>
+					
 			</div>
+					
+		</div>
 
 
-			<%--  Cadre pour sauvegarder la traduction // Les lignes vont êtres
+
+		<%--  Cadre pour sauvegarder la traduction // Les lignes vont êtres
 			sauvegardés dans la base de données et un fichier traduction et
 			original va être généré. --%>
 
 
-			<div class="col-lg-4  col-md-4 col-sm-4 ">
-				<div class="panel panel-primary" id="sauvegarder">
-					<div class="panel-heading" id="topSauvegarde">
-						<h3 class="panel-title">Sauvegarder</h3>
-					</div>
-					<div>
+		<div class="col-lg-4  col-md-4 col-sm-4 ">
+			<div class="panel panel-primary" id="sauvegarder">
+				<div class="panel-heading" id="topSauvegarde">
+					<h3 class="panel-title">Sauvegarder</h3>
+				</div>
+				<div>
+				
 						<button class="btn btn-primary" type="submit" id="submit"
 							name="submit" value="sauvegarde">
 							<span class="glyphicon glyphicon-floppy-disk"></span>
 						</button>
-					</div>
+					
 				</div>
 			</div>
 		</div>
 
+	</div>
 
-		<%--  Bloc qui va contenir les sous-titres de la video. // Le numéro de
+
+	<%--  Bloc qui va contenir les sous-titres de la video. // Le numéro de
 		la ligne, le temps, le texte original et la traduction seront
 		affichés.  --%>
 
-		<div class="col-lg-12  col-md-12 col-sm-12" id="cadreBot">
+	<div class="col-lg-12  col-md-12 col-sm-12" id="cadreBot">
+	
 			<div id="table" class="col-lg-1  col-md-1 col-sm-1">
 
 				<%--  Boucle qui affiche les numéros des lignes. --%>
@@ -322,16 +338,15 @@ h2, #tableau {
 						<c:forEach items="${ traduction }" var="lineTrade"
 							varStatus="status">
 							<tr>
-								<td id="tradeBar"><input type="text" style="width :95%;"
+								<td id="tradeBar"><input type="text" style="width: 95%;"
 									name="lineTraductionLire${ status.index }"
-									id="lineTradeLire${ status.index }" value="${ lineTrade }" /></td>
-
+									id="lineTraductionLire${ status.index }" value="${ lineTrade }" /></td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
 			</c:if>
-			<c:if test="${ submit eq 'ajouter' }">
+			<c:if test="${ add eq 'ok'}">
 
 
 				<%--  Boucle qui affiche les lignes pour la traduction. --%>
@@ -344,9 +359,9 @@ h2, #tableau {
 						<c:forEach items="${ subtitles }" var="lineTrade"
 							varStatus="status">
 							<tr>
-								<td id="tradeBar"><input type="text" style="width :95%;"
+								<td id="tradeBar"><input type="text" style="width: 95%;"
 									name="lineTraductionAjouter${ status.index }"
-									id="lineTradeAjouter${ status.index }" /></td>
+									id="lineTraductionAjouter${ status.index }" /></td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -356,9 +371,9 @@ h2, #tableau {
 				<a href="#top" class="btn btn-primary btn-primary"><span
 					class="glyphicon glyphicon-arrow-up"></span> </a>
 			</div>
-		</div>
-
-	</form>
+		
+	</div>
+</form>
 
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

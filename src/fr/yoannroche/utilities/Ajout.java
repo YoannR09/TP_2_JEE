@@ -19,8 +19,9 @@ public class Ajout {
 	 * Classe qui récupère le fichier srt transmis par l'utilisateur.
 	 * On affiche le texte de la video et on placera des champs vide en dessous pour la traduction.
 	 * @param fileName
+	 * @param nomFichier 
 	 */
-	public Ajout(String fileName) {
+	public Ajout(String chemin, String nomFichier) {
 		originalSubtitles = new ArrayList<String>();
 		translatedSubtitles = new ArrayList<String>();
 		numeroLigne = new ArrayList<String>();
@@ -28,7 +29,7 @@ public class Ajout {
 		BufferedReader br;
 		try {
 			int type = 1 ;
-			br = new BufferedReader(new FileReader(fileName));
+			br = new BufferedReader(new FileReader(chemin+nomFichier));
 			String line;
 
 			/**
